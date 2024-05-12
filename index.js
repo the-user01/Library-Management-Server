@@ -7,10 +7,13 @@ const port = process.env.PORT || 5000;
 
 require('dotenv').config();
 
-app.use(cors({
-    origin: ['http://localhost:5173'],
-    credentials: true,
-}));
+
+const corsOptions ={
+    origin:['http://localhost:5173'], 
+    credentials:true,
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
@@ -19,12 +22,10 @@ app.use(function (req, res, next) {
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept'
     )
-    next()
+    next();
   })
 
 app.use(express.json());
-
-
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.8yiviav.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -42,21 +43,16 @@ async function run() {
 
         const bookCollection = client.db('booksDB').collection('books');
 
-        app.get('/allBooks', async(req, res)=>{
+        app.get('/all-books', async(req, res)=>{
             const result = await bookCollection.find().toArray();
             res.send(result);
         })
-
-        app.post('/allBooks', async(req, res)=>{
+        app.post('/all-books', async(req, res)=>{
             const newBooks = req.body;
             const result = await bookCollection.insertOne(newBooks);
 
             res.send(result);
         })
-
-        // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
     }

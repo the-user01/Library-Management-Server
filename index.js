@@ -84,6 +84,21 @@ async function run() {
             res.send(result) 
         })
 
+
+
+        // Book Category Server
+
+        const categoryCollection = client.db('booksDB').collection('booksCategory');
+
+        app.get('/books-category', async(req, res)=>{
+            const bookCategory = req.body;
+            const result = await categoryCollection.find(bookCategory).toArray();
+            
+            res.send(result);
+        })
+
+
+
     } finally {
         // Ensures that the client will close when you finish/error
     }

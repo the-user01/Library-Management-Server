@@ -55,6 +55,15 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/all-books/category/:category', async(req, res)=>{
+            const category = req.params.category;
+            const cursor = {category: category};
+            const options = { upsert: true };
+            const result = await bookCollection.find(cursor, options).toArray();
+
+            res.send(result);
+        })
+
         app.post('/all-books', async (req, res) => {
             const newBooks = req.body;
             const result = await bookCollection.insertOne(newBooks);

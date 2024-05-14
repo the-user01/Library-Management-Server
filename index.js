@@ -107,6 +107,25 @@ async function run() {
         })
 
 
+        /* Borrowed books server */
+
+        const borrowedBooksCollection = client.db('booksDB').collection('borrowedBooks');
+
+        app.get('/borrowed-books', async(req, res)=>{
+            const borrowedBooks = req.body;
+            const result = await borrowedBooksCollection.find(borrowedBooks).toArray();
+
+            res.send(result);
+        })
+
+        app.post('/borrowed-books', async(req, res)=>{
+            const newBorrowedBooks = req.body;
+
+            const result = await borrowedBooksCollection.insertOne(newBorrowedBooks);
+
+            res.send(result);
+        })
+
 
     } finally {
         // Ensures that the client will close when you finish/error

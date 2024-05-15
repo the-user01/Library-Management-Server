@@ -118,6 +118,14 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/borrowed-books/email/:email', async(req, res)=>{
+            const email = req.params.email;
+            const cursor = {user_email: email};
+            const result = await borrowedBooksCollection.find(cursor).toArray();
+
+            res.send(result);
+        })
+
         app.post('/borrowed-books', async(req, res)=>{
             const newBorrowedBooks = req.body;
 

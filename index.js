@@ -110,6 +110,7 @@ async function run() {
             res.send(result);
         })
 
+
         app.post('/all-books', async (req, res) => {
             const newBooks = req.body;
             const result = await bookCollection.insertOne(newBooks);

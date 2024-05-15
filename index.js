@@ -158,7 +158,7 @@ async function run() {
 
         const borrowedBooksCollection = client.db('booksDB').collection('borrowedBooks');
 
-        app.get('/borrowed-books', verifyToken, async (req, res) => {
+        app.get('/borrowed-books', async (req, res) => {
             const borrowedBooks = req.body;
             const result = await borrowedBooksCollection.find(borrowedBooks).toArray();
 
